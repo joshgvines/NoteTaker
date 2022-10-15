@@ -27,6 +27,7 @@
 
 !gradlew
 !gradlew.bat
+!gradle-wrapper.jar
 
 /build
 .build
