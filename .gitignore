@@ -22,7 +22,6 @@
 /idea
 .idea
 
-/gradle
 .gradle
 
 .gradle/*
