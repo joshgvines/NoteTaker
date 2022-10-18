@@ -9,12 +9,6 @@ public class Launcher {
 
         // Create Single JFrame Thread. JFrame is NOT thread safe.
         SwingUtilities.invokeLater(() -> {
-//            try {
-//                FlatLightLaf flatLightLaf = new FlatLightLaf();
-//                UIManager.setLookAndFeel(flatLightLaf);
-//            } catch( Exception ex ) {
-//                System.err.println( "Failed to initialize LaF" );
-//            }
             NoteTakerWindow window = new NoteTakerWindow();
             window.show();
         });
