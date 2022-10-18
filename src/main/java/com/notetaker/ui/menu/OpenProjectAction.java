@@ -1,6 +1,5 @@
 package com.notetaker.ui.menu;
 
-import com.notetaker.ui.NoteTakerWindow;
 import com.notetaker.ui.panels.SideNavigationPanel;
 
 import javax.swing.*;
