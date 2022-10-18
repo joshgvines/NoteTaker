@@ -3,15 +3,16 @@ package com.notetaker.ui.menu;
 import com.notetaker.ui.panels.SideNavigationPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class OpenProjectAction implements ActionListener {
+class OpenFolderAction implements ActionListener {
 
-    private FileMenu menu;
+    private Component parent;
 
-    protected OpenProjectAction(FileMenu menu) {
-        this.menu = menu;
+    public OpenFolderAction(Component parent) {
+        this.parent = parent;
     }
 
     @Override
@@ -19,7 +20,7 @@ public class OpenProjectAction implements ActionListener {
         JFileChooser fChooser = new JFileChooser();
         fChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-        if (fChooser.showOpenDialog(menu) == JFileChooser.APPROVE_OPTION) {
+        if (fChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
             SideNavigationPanel.reloadLocation(fChooser.getSelectedFile());
         }
     }
