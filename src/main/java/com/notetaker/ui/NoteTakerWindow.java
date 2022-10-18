@@ -5,7 +5,6 @@ import com.notetaker.ui.panels.NotesEditorPanel;
 import com.notetaker.ui.panels.SideNavigationPanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class NoteTakerWindow {
 
@@ -44,8 +43,6 @@ public class NoteTakerWindow {
 
         jFrameWindow.add(splitnav);
         jFrameWindow.setJMenuBar(MainMenuBar.getInstance());
-
-        jFrameWindow.setBackground(Color.BLACK);
     }
 
     public void show() {
