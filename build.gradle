@@ -1,9 +1,11 @@
 plugins {
     id 'java'
+    id 'pl.allegro.tech.build.axion-release' version '1.14.2'
 }
 
+project.version = scmVersion.version
+
 group 'com.notetaker'
-version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
