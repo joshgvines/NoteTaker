@@ -5,7 +5,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 
-public final class NotesEditorPanel {
+public class NotesEditorPanel {
 
     private static JPanel notesPanel;
     private static File currentFile;
