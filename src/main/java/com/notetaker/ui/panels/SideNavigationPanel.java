@@ -1,11 +1,14 @@
 package com.notetaker.ui.panels;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.io.File;
 
 public class SideNavigationPanel {
 
     private static JPanel sideNavePanel;
+    private static File location;
 
     private SideNavigationPanel() {
         initialize();
@@ -13,16 +16,55 @@ public class SideNavigationPanel {
 
     private static void initialize() {
         sideNavePanel = new JPanel(new BorderLayout());
+        load();
+    }
 
+    protected static void load() {
+        try {
+            loadFilesFromCurrentLocation();
+            JScrollPane listScroller = new JScrollPane(loadFilesFromCurrentLocation());
+            listScroller.setPreferredSize(new Dimension(80, 80));
+            sideNavePanel.add(listScroller);
+        } finally {
+            sideNavePanel.validate();
+        }
+    }
+
+    public static void reloadLocation(File newLocation) {
+        location = newLocation;
+        sideNavePanel.removeAll();
+        load();
+    }
+
+    private static JList<String> loadFilesFromCurrentLocation() {
         DefaultListModel listModel = new DefaultListModel();
-        listModel.addElement("That Guy");
+        JList<String> navList = null;
 
-        JList<String> navList = new JList<>(listModel);
-        JScrollPane listScroller = new JScrollPane(navList);
-        listScroller.setPreferredSize(new Dimension(80, 80));
+        if (location != null && location.exists() && !location.isFile()) {
+            File[] files = location.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                listModel.addElement(files[i].getName());
+            }
+            navList = new JList<>(listModel);
+            navList.addListSelectionListener(fileClickedEvent(navList));
+        } else {
+            listModel.addElement("No Files Found");
+        }
+        return navList;
+    }
 
-        sideNavePanel.add(listScroller);
-
+    private static ListSelectionListener fileClickedEvent(JList<String> navList) {
+        return e -> {
+            if (!e.getValueIsAdjusting()) {
+                final String selectedFileName = navList.getSelectedValue();
+                // TODO: Eventually will open new tab
+                if (selectedFileName != null && !selectedFileName.isEmpty()) {
+                    String fileLocation = location + "\\" + selectedFileName;
+                    File fileToOpen = new File(fileLocation);
+                    NotesEditorPanel.setOpenFileInEditor(fileToOpen);
+                }
+            }
+        };
     }
 
     public static synchronized JPanel getInstance() {

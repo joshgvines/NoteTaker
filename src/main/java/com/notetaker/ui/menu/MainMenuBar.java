@@ -12,15 +12,23 @@ public class MainMenuBar {
 
     private static void initialize() {
         mainMenuBar = new JMenuBar();
-        mainMenuBar.add(new FileMenu());
+        load();
     }
 
-    public static JMenuBar getInstance() {
+    protected static void load() {
+        try {
+            mainMenuBar.add(FileMenu.getInstance());
+        } finally {
+            mainMenuBar.validate();
+        }
+    }
+
+    public static synchronized JMenuBar getInstance() {
         if (mainMenuBar == null) {
             initialize();
             return mainMenuBar;
         }
-        return null;
+        return mainMenuBar;
     }
 
 }
