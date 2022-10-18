@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 class FileMenu extends JMenu {
 
@@ -11,10 +12,12 @@ class FileMenu extends JMenu {
     private static final String NEW_NOTE = "New";
     private static final String EXPORT_NOTE = "Export";
     private static final String SAVE_NOTE = "Save";
+    private static final String OPEN_PROJECT = "Open Project";
 
     private JMenuItem newNote;
     private JMenuItem exportNote;
     private JMenuItem saveNote;
+    private JMenuItem openProject;
 
     FileMenu() {
         super(MENU_NAME);
@@ -30,14 +33,22 @@ class FileMenu extends JMenu {
         newNote = new JMenuItem(NEW_NOTE);
         exportNote = new JMenuItem(EXPORT_NOTE);
         saveNote = new JMenuItem(SAVE_NOTE);
+        openProject = new JMenuItem(OPEN_PROJECT);
 
         newNote.addActionListener(newNoteAction());
         exportNote.addActionListener(exportNoteAction());
         saveNote.addActionListener(saveNoteAction());
+        openProject.addActionListener(openProjectAction());
 
         this.add(newNote);
         this.add(exportNote);
         this.add(saveNote);
+        this.add(openProject);
+    }
+
+    private ActionListener openProjectAction() {
+        openProject.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+        return new OpenProjectAction(this);
     }
 
     private ActionListener newNoteAction() {
