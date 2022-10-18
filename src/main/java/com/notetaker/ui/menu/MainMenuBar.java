@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class MainMenuBar {
 
-    private static JMenuBar mainMenuBar = null;
+    private static JMenuBar mainMenuBar;
 
     private MainMenuBar() {
         initialize();

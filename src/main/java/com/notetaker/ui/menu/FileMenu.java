@@ -13,7 +13,7 @@ class FileMenu {
     private static final String SAVE_NOTE = "Save";
     private static final String OPEN_FOLDER = "Open Folder";
 
-    private static JMenu fileMenu = null;
+    private static JMenu fileMenu;
 
     private static JMenuItem newNote;
     private static JMenuItem exportNote;

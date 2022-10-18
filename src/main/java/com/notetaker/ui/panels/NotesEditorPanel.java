@@ -8,7 +8,7 @@ import java.io.FileReader;
 public final class NotesEditorPanel {
 
     private static JPanel notesPanel;
-    private static File currentFile = null;
+    private static File currentFile;
 
     private NotesEditorPanel() {
         initialize();

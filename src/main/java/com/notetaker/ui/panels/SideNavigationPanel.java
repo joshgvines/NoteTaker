@@ -8,7 +8,7 @@ import java.io.File;
 public class SideNavigationPanel {
 
     private static JPanel sideNavePanel;
-    private static File location = null;
+    private static File location;
 
     private SideNavigationPanel() {
         initialize();
