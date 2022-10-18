@@ -16,6 +16,9 @@ class OpenFolderAction implements ActionListener {
     }
 
     @Override
+    /**
+     * Will change the current directory of the side navigation and files.
+     */
     public void actionPerformed(ActionEvent e) {
         JFileChooser fChooser = new JFileChooser();
         fChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

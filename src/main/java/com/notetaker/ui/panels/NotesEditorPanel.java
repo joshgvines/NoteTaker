@@ -5,7 +5,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 
-public class NotesEditorPanel {
+public final class NotesEditorPanel {
 
     private static JPanel notesPanel;
     private static File currentFile = null;
@@ -20,23 +20,33 @@ public class NotesEditorPanel {
         load();
     }
 
-    public static void reloadOpenFile(File fileToOpen) {
+    protected static void load() {
+        try {
+            JScrollPane jScrollPane = new JScrollPane();
+            jScrollPane.setViewportView(readFileIntoEditor());
+
+            notesPanel.add(jScrollPane);
+        } finally {
+            notesPanel.validate();
+        }
+    }
+
+    protected static void setOpenFileInEditor(File fileToOpen) {
         currentFile = fileToOpen;
         notesPanel.removeAll();
         load();
     }
 
-    private static void load() {
-        JScrollPane jScrollPane = new JScrollPane();
+    private static JTextArea readFileIntoEditor() {
+        JTextArea textFile = new JTextArea();
         try {
-            JTextArea textFile = new JTextArea();
-            textFile.read(new FileReader(currentFile), null);
-            jScrollPane.setViewportView(textFile);
+            if (currentFile != null && currentFile.isFile()) {
+                textFile.read(new FileReader(currentFile), null);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        notesPanel.add(jScrollPane);
-        notesPanel.validate();
+        return textFile;
     }
 
     public static synchronized JPanel getInstance() {

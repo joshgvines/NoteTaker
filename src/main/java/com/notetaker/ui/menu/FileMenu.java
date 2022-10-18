@@ -27,7 +27,15 @@ class FileMenu {
     private static void initialize() {
         fileMenu = new JMenu(MENU_NAME);
         fileMenu.setMnemonic(KeyEvent.VK_F);
-        buildMenuItems();
+        load();
+    }
+
+    protected static void load() {
+        try {
+            buildMenuItems();
+        } finally {
+            fileMenu.validate();
+        }
     }
 
     private static void buildMenuItems() {
@@ -67,7 +75,7 @@ class FileMenu {
         return e -> System.out.println("Save Note");
     }
 
-    public static synchronized JMenu getInstance() {
+    protected static synchronized JMenu getInstance() {
         if (fileMenu == null) {
             initialize();
             return fileMenu;

@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class MainMenuBar {
 
-    private static JMenuBar mainMenuBar;
+    private static JMenuBar mainMenuBar = null;
 
     private MainMenuBar() {
         initialize();
@@ -12,7 +12,15 @@ public class MainMenuBar {
 
     private static void initialize() {
         mainMenuBar = new JMenuBar();
-        mainMenuBar.add(FileMenu.getInstance());
+        load();
+    }
+
+    protected static void load() {
+        try {
+            mainMenuBar.add(FileMenu.getInstance());
+        } finally {
+            mainMenuBar.validate();
+        }
     }
 
     public static synchronized JMenuBar getInstance() {
