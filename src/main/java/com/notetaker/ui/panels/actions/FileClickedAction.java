@@ -9,7 +9,7 @@ import javax.swing.event.ListSelectionListener;
 import java.io.File;
 
 /**
- * Will update what files are displayed in the NotesEditorPanel.
+ * Will update which file is displayed in the NotesEditorPanel.
  */
 public class FileClickedAction implements ListSelectionListener {
 
