@@ -1,4 +1,4 @@
-package com.notetaker.ui.panels.action;
+package com.notetaker.ui.panels.actions;
 
 import com.notetaker.ui.panels.NotesEditorPanel;
 import com.notetaker.ui.panels.SideNavigationPanel;

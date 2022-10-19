@@ -1,6 +1,6 @@
 package com.notetaker.ui.panels;
 
-import com.notetaker.ui.panels.action.FileClickedAction;
+import com.notetaker.ui.panels.actions.FileClickedAction;
 
 import javax.swing.*;
 import java.awt.*;
