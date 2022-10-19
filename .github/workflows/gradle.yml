@@ -37,4 +37,4 @@ jobs:
       uses: gradle/wrapper-validation-action@v1.0.4
 
     - name: 4. Build with Gradle
-      run: ./gradlew build -v -s --scan
+      run: ./gradlew build
