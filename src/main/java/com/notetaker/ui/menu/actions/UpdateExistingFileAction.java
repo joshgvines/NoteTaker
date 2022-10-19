@@ -5,34 +5,33 @@ import com.notetaker.ui.panels.SideNavigationPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+/**
+ * Will overwrite an existing file with changes made in the NotesEditorPanel.
+ */
 public class UpdateExistingFileAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        File navLocationFile = SideNavigationPanel.getLocation();
+        if (navLocationFile == null || !navLocationFile.isDirectory()) {
+            return;
+        }
+
         try {
-            File navLocationFile = SideNavigationPanel.getLocation();
-            if (navLocationFile != null && navLocationFile.exists()) {
-                File openFile = NotesEditorPanel.getOpenFileInEditor();
-                if (openFile != null && openFile.exists()) {
-                    updateFile(openFile);
-                    NotesEditorPanel.load();
-                }
+            File openFile = NotesEditorPanel.getOpenFileInEditor();
+            if (openFile != null && openFile.isFile()) {
+                String currentText = NotesEditorPanel.getCurrentText();
+                Files.writeString(openFile.toPath(), currentText, StandardCharsets.UTF_8);
+
+                // Get the new file into memory in the editor panel. Not just the TextArea.
+                NotesEditorPanel.load();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
-    }
-
-    private void updateFile(File openFile) {
-        String currentText = NotesEditorPanel.getCurrentText();
-        try {
-            Files.writeString(openFile.toPath(), currentText, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 

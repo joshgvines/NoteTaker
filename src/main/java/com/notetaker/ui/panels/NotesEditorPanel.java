@@ -26,7 +26,8 @@ public class NotesEditorPanel {
         try {
             notesPanel.removeAll();
             JScrollPane jScrollPane = new JScrollPane();
-            jScrollPane.setViewportView(readFileIntoEditor());
+            readFileIntoEditor();
+            jScrollPane.setViewportView(textArea);
             notesPanel.add(jScrollPane);
         } finally {
             notesPanel.revalidate();
@@ -41,15 +42,16 @@ public class NotesEditorPanel {
         return currentFile;
     }
 
-    private static JTextArea readFileIntoEditor() {
-        try {
-            if (currentFile != null && currentFile.isFile()) {
-                textArea.read(new FileReader(currentFile), null);
-            }
+    private static void readFileIntoEditor() {
+        if (currentFile == null || !currentFile.isFile()) {
+            textArea.setText(null);
+            return;
+        }
+        try (FileReader fileReader = new FileReader(currentFile)) {
+            textArea.read(fileReader, null);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return textArea;
     }
 
     public static String getCurrentText() {

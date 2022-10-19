@@ -6,16 +6,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+ * Will create a new file 'untitled' if the file does not exist.
+ * If the file exists, will increment the default name by one.
+ * ex: 'untitled 1..n'
+ */
 public class CreateNewFileAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        File navLocationFile = SideNavigationPanel.getLocation();
+        if (navLocationFile == null || !navLocationFile.isDirectory()) {
+            return;
+        }
+
         try {
-            File navLocationFile = SideNavigationPanel.getLocation();
-            if (navLocationFile != null && navLocationFile.exists()) {
-                existingFileIncrement(navLocationFile).createNewFile();
-                SideNavigationPanel.load();
-            }
+            existingFileIncrement(navLocationFile).createNewFile();
+            SideNavigationPanel.load();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
