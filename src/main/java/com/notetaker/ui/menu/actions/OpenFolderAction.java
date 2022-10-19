@@ -1,4 +1,4 @@
-package com.notetaker.ui.menu;
+package com.notetaker.ui.menu.actions;
 
 import com.notetaker.ui.panels.SideNavigationPanel;
 
@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class OpenFolderAction implements ActionListener {
+public class OpenFolderAction implements ActionListener {
 
     private Component parent;
 
@@ -24,7 +24,10 @@ class OpenFolderAction implements ActionListener {
         fChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         if (fChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
-            SideNavigationPanel.reloadLocation(fChooser.getSelectedFile());
+            if (!SideNavigationPanel.getLocation().equals(fChooser)) {
+                SideNavigationPanel.setLocation(fChooser.getSelectedFile());
+                SideNavigationPanel.load();
+            }
         }
     }
 }

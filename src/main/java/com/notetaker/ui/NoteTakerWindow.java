@@ -34,14 +34,14 @@ public class NoteTakerWindow {
     }
 
     private void buildPanels() {
-        JSplitPane splitnav = new JSplitPane(
+        JSplitPane splitNav = new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT,
                 SideNavigationPanel.getInstance(),
                 NotesEditorPanel.getInstance());
 
-        splitnav.setDividerLocation(200);
+        splitNav.setDividerLocation(200);
 
-        jFrameWindow.add(splitnav);
+        jFrameWindow.add(splitNav);
         jFrameWindow.setJMenuBar(MainMenuBar.getInstance());
     }
 

@@ -8,7 +8,8 @@ import java.io.File;
 public class SideNavigationPanel {
 
     private static JPanel sideNavePanel;
-    private static File location;
+    // TODO: Better Default value
+    private static File location = new File("\\Users\\");
 
     private SideNavigationPanel() {
         initialize();
@@ -19,21 +20,24 @@ public class SideNavigationPanel {
         load();
     }
 
-    protected static void load() {
+    public static void load() {
         try {
+            sideNavePanel.removeAll();
             loadFilesFromCurrentLocation();
             JScrollPane listScroller = new JScrollPane(loadFilesFromCurrentLocation());
             listScroller.setPreferredSize(new Dimension(80, 80));
             sideNavePanel.add(listScroller);
         } finally {
-            sideNavePanel.validate();
+            sideNavePanel.revalidate();
         }
     }
 
-    public static void reloadLocation(File newLocation) {
+    public static void setLocation(File newLocation) {
         location = newLocation;
-        sideNavePanel.removeAll();
-        load();
+    }
+
+    public static File getLocation() {
+        return location;
     }
 
     private static JList<String> loadFilesFromCurrentLocation() {
@@ -62,6 +66,7 @@ public class SideNavigationPanel {
                     String fileLocation = location + "\\" + selectedFileName;
                     File fileToOpen = new File(fileLocation);
                     NotesEditorPanel.setOpenFileInEditor(fileToOpen);
+                    NotesEditorPanel.load();
                 }
             }
         };
@@ -73,5 +78,4 @@ public class SideNavigationPanel {
         }
         return sideNavePanel;
     }
-
 }
