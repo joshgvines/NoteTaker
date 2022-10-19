@@ -1,7 +1,8 @@
 package com.notetaker.ui.panels;
 
+import com.notetaker.ui.panels.action.FileClickedAction;
+
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.io.File;
 
@@ -9,7 +10,8 @@ public class SideNavigationPanel {
 
     private static JPanel sideNavePanel;
     // TODO: Better Default value
-    private static File location = new File("\\Users\\");
+    private static File location;
+    private static FileClickedAction fileClickedEvent;
 
     private SideNavigationPanel() {
         initialize();
@@ -17,6 +19,8 @@ public class SideNavigationPanel {
 
     private static void initialize() {
         sideNavePanel = new JPanel(new BorderLayout());
+        fileClickedEvent = new FileClickedAction();
+        location = new File("\\Users\\");
         load();
     }
 
@@ -49,27 +53,14 @@ public class SideNavigationPanel {
             for (int i = 0; i < files.length; i++) {
                 listModel.addElement(files[i].getName());
             }
+
             navList = new JList<>(listModel);
-            navList.addListSelectionListener(fileClickedEvent(navList));
+            fileClickedEvent.setFileList(navList);
+            navList.addListSelectionListener(fileClickedEvent);
         } else {
             listModel.addElement("No Files Found");
         }
         return navList;
-    }
-
-    private static ListSelectionListener fileClickedEvent(JList<String> navList) {
-        return e -> {
-            if (!e.getValueIsAdjusting()) {
-                final String selectedFileName = navList.getSelectedValue();
-                // TODO: Eventually will open new tab
-                if (selectedFileName != null && !selectedFileName.isEmpty()) {
-                    String fileLocation = location + "\\" + selectedFileName;
-                    File fileToOpen = new File(fileLocation);
-                    NotesEditorPanel.setOpenFileInEditor(fileToOpen);
-                    NotesEditorPanel.load();
-                }
-            }
-        };
     }
 
     public static synchronized JPanel getInstance() {

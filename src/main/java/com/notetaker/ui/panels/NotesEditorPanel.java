@@ -34,7 +34,7 @@ public class NotesEditorPanel {
         }
     }
 
-    protected static void setOpenFileInEditor(File fileToOpen) {
+    public static void setOpenFileInEditor(File fileToOpen) {
         currentFile = fileToOpen;
     }
 
