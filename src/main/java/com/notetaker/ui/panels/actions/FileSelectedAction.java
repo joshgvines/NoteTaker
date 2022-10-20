@@ -11,7 +11,7 @@ import java.io.File;
 /**
  * Will update which file is displayed in the NotesEditorPanel.
  */
-public class FileClickedAction implements ListSelectionListener {
+public class FileSelectedAction implements ListSelectionListener {
 
     private JList<String> fileList = null;
 

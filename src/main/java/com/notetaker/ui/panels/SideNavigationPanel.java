@@ -1,6 +1,6 @@
 package com.notetaker.ui.panels;
 
-import com.notetaker.ui.panels.actions.FileClickedAction;
+import com.notetaker.ui.panels.actions.FileSelectedAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,9 @@ public class SideNavigationPanel {
     private static JPanel sideNavePanel;
     // TODO: Better Default value
     private static File location;
-    private static FileClickedAction fileClickedEvent;
+    private static FileSelectedAction fileClickedEvent;
+    private static JList<String> navList;
+    private static DefaultListModel listModel;
 
     private SideNavigationPanel() {
         initialize();
@@ -19,8 +21,10 @@ public class SideNavigationPanel {
 
     private static void initialize() {
         sideNavePanel = new JPanel(new BorderLayout());
-        fileClickedEvent = new FileClickedAction();
+        fileClickedEvent = new FileSelectedAction();
         location = new File("\\Users\\");
+        listModel = new DefaultListModel();
+        navList = new JList<>();
         load();
     }
 
@@ -45,16 +49,14 @@ public class SideNavigationPanel {
     }
 
     private static JList<String> loadFilesFromCurrentLocation() {
-        DefaultListModel listModel = new DefaultListModel();
-        JList<String> navList = null;
+        listModel.clear();
 
-        if (location != null && location.exists() && !location.isFile()) {
+        if (location != null && location.isDirectory()) {
             File[] files = location.listFiles();
             for (int i = 0; i < files.length; i++) {
                 listModel.addElement(files[i].getName());
             }
-
-            navList = new JList<>(listModel);
+            navList.setModel(listModel);
             fileClickedEvent.setFileList(navList);
             navList.addListSelectionListener(fileClickedEvent);
         } else {
