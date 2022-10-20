@@ -9,6 +9,7 @@ public class NotesEditorPanel {
 
     private static JPanel notesPanel;
     private static File currentFile;
+    private static JTextArea textArea;
 
     private NotesEditorPanel() {
         initialize();
@@ -17,36 +18,44 @@ public class NotesEditorPanel {
     private static void initialize() {
         notesPanel = new JPanel();
         notesPanel.setLayout(new BorderLayout());
+        textArea = new JTextArea();
         load();
     }
 
-    protected static void load() {
+    public static void load() {
         try {
+            notesPanel.removeAll();
             JScrollPane jScrollPane = new JScrollPane();
-            jScrollPane.setViewportView(readFileIntoEditor());
-
+            readFileIntoEditor();
+            jScrollPane.setViewportView(textArea);
             notesPanel.add(jScrollPane);
         } finally {
-            notesPanel.validate();
+            notesPanel.revalidate();
         }
     }
 
-    protected static void setOpenFileInEditor(File fileToOpen) {
+    public static void setOpenFileInEditor(File fileToOpen) {
         currentFile = fileToOpen;
-        notesPanel.removeAll();
-        load();
     }
 
-    private static JTextArea readFileIntoEditor() {
-        JTextArea textFile = new JTextArea();
-        try {
-            if (currentFile != null && currentFile.isFile()) {
-                textFile.read(new FileReader(currentFile), null);
-            }
+    public static File getOpenFileInEditor() {
+        return currentFile;
+    }
+
+    private static void readFileIntoEditor() {
+        if (currentFile == null || !currentFile.isFile()) {
+            textArea.setText(null);
+            return;
+        }
+        try (FileReader fileReader = new FileReader(currentFile)) {
+            textArea.read(fileReader, null);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return textFile;
+    }
+
+    public static String getCurrentText() {
+        return textArea.getText();
     }
 
     public static synchronized JPanel getInstance() {

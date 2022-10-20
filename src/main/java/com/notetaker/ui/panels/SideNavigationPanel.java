@@ -1,14 +1,19 @@
 package com.notetaker.ui.panels;
 
+import com.notetaker.ui.panels.actions.FileSelectedAction;
+
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.io.File;
 
 public class SideNavigationPanel {
 
     private static JPanel sideNavePanel;
+    // TODO: Better Default value
     private static File location;
+    private static FileSelectedAction fileClickedEvent;
+    private static JList<String> navList;
+    private static DefaultListModel listModel;
 
     private SideNavigationPanel() {
         initialize();
@@ -16,55 +21,48 @@ public class SideNavigationPanel {
 
     private static void initialize() {
         sideNavePanel = new JPanel(new BorderLayout());
+        fileClickedEvent = new FileSelectedAction();
+        location = new File("\\Users\\");
+        listModel = new DefaultListModel();
+        navList = new JList<>();
         load();
     }
 
-    protected static void load() {
+    public static void load() {
         try {
+            sideNavePanel.removeAll();
             loadFilesFromCurrentLocation();
             JScrollPane listScroller = new JScrollPane(loadFilesFromCurrentLocation());
             listScroller.setPreferredSize(new Dimension(80, 80));
             sideNavePanel.add(listScroller);
         } finally {
-            sideNavePanel.validate();
+            sideNavePanel.revalidate();
         }
     }
 
-    public static void reloadLocation(File newLocation) {
+    public static void setLocation(File newLocation) {
         location = newLocation;
-        sideNavePanel.removeAll();
-        load();
+    }
+
+    public static File getLocation() {
+        return location;
     }
 
     private static JList<String> loadFilesFromCurrentLocation() {
-        DefaultListModel listModel = new DefaultListModel();
-        JList<String> navList = null;
+        listModel.clear();
 
-        if (location != null && location.exists() && !location.isFile()) {
+        if (location != null && location.isDirectory()) {
             File[] files = location.listFiles();
             for (int i = 0; i < files.length; i++) {
                 listModel.addElement(files[i].getName());
             }
-            navList = new JList<>(listModel);
-            navList.addListSelectionListener(fileClickedEvent(navList));
+            navList.setModel(listModel);
+            fileClickedEvent.setFileList(navList);
+            navList.addListSelectionListener(fileClickedEvent);
         } else {
             listModel.addElement("No Files Found");
         }
         return navList;
-    }
-
-    private static ListSelectionListener fileClickedEvent(JList<String> navList) {
-        return e -> {
-            if (!e.getValueIsAdjusting()) {
-                final String selectedFileName = navList.getSelectedValue();
-                // TODO: Eventually will open new tab
-                if (selectedFileName != null && !selectedFileName.isEmpty()) {
-                    String fileLocation = location + "\\" + selectedFileName;
-                    File fileToOpen = new File(fileLocation);
-                    NotesEditorPanel.setOpenFileInEditor(fileToOpen);
-                }
-            }
-        };
     }
 
     public static synchronized JPanel getInstance() {
@@ -73,5 +71,4 @@ public class SideNavigationPanel {
         }
         return sideNavePanel;
     }
-
 }

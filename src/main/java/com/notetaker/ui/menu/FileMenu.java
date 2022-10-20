@@ -1,5 +1,9 @@
 package com.notetaker.ui.menu;
 
+import com.notetaker.ui.menu.actions.CreateNewFileAction;
+import com.notetaker.ui.menu.actions.OpenFolderAction;
+import com.notetaker.ui.menu.actions.UpdateExistingFileAction;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +22,7 @@ class FileMenu {
     private static JMenuItem newNote;
     private static JMenuItem exportNote;
     private static JMenuItem saveNote;
-    private static JMenuItem openProject;
+    private static JMenuItem openFolder;
 
     private FileMenu() {
         initialize();
@@ -34,7 +38,7 @@ class FileMenu {
         try {
             buildMenuItems();
         } finally {
-            fileMenu.validate();
+            fileMenu.revalidate();
         }
     }
 
@@ -42,27 +46,23 @@ class FileMenu {
         newNote = new JMenuItem(NEW_NOTE);
         exportNote = new JMenuItem(EXPORT_NOTE);
         saveNote = new JMenuItem(SAVE_NOTE);
-        openProject = new JMenuItem(OPEN_FOLDER);
+        openFolder = new JMenuItem(OPEN_FOLDER);
 
         newNote.addActionListener(newNoteAction());
         exportNote.addActionListener(exportNoteAction());
         saveNote.addActionListener(saveNoteAction());
-        openProject.addActionListener(openFolderAction());
+        openFolder.addActionListener(openFolderAction());
 
         fileMenu.add(newNote);
         fileMenu.add(exportNote);
         fileMenu.add(saveNote);
-        fileMenu.add(openProject);
-    }
-
-    private static ActionListener openFolderAction() {
-        openProject.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-        return new OpenFolderAction(fileMenu);
+        fileMenu.add(openFolder);
     }
 
     private static ActionListener newNoteAction() {
         newNote.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-        return e -> System.out.println("New Note");
+        ActionListener createNewFileAction = new CreateNewFileAction();
+        return createNewFileAction;
     }
 
     private static ActionListener exportNoteAction() {
@@ -72,7 +72,13 @@ class FileMenu {
 
     private static ActionListener saveNoteAction() {
         saveNote.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        return e -> System.out.println("Save Note");
+        ActionListener updateExistingFileAction = new UpdateExistingFileAction();
+        return updateExistingFileAction;
+    }
+
+    private static ActionListener openFolderAction() {
+        openFolder.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+        return new OpenFolderAction(getInstance());
     }
 
     protected static synchronized JMenu getInstance() {

@@ -19,7 +19,7 @@ public class MainMenuBar {
         try {
             mainMenuBar.add(FileMenu.getInstance());
         } finally {
-            mainMenuBar.validate();
+            mainMenuBar.revalidate();
         }
     }
 
