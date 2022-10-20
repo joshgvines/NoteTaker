@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import static com.notetaker.ui.menu.actions.UpdateExistingFileAction.UpdateFlag.IS_OVERWRITE;
+import static com.notetaker.ui.menu.actions.UpdateExistingFileAction.UpdateFlag;
 
 class FileMenu {
 
@@ -73,7 +73,7 @@ class FileMenu {
 
     private static ActionListener saveNoteAction() {
         saveNote.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        return new UpdateExistingFileAction(IS_OVERWRITE, fileMenu);
+        return new UpdateExistingFileAction(UpdateFlag.IS_OVERWRITE, fileMenu);
     }
 
     private static ActionListener openFolderAction() {

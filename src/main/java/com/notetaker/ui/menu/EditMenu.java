@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import static com.notetaker.ui.menu.actions.UpdateExistingFileAction.UpdateFlag.IS_NAME_CHANGE;
+import static com.notetaker.ui.menu.actions.UpdateExistingFileAction.UpdateFlag;
 
 class EditMenu {
 
@@ -52,7 +52,7 @@ class EditMenu {
 
     private static ActionListener renameFileAction() {
         renameItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
-        return new UpdateExistingFileAction(IS_NAME_CHANGE, editMenu);
+        return new UpdateExistingFileAction(UpdateFlag.IS_NAME_CHANGE, editMenu);
     }
 
     static synchronized JMenu getInstance() {
