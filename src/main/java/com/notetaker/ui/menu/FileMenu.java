@@ -34,7 +34,7 @@ class FileMenu {
         load();
     }
 
-    protected static void load() {
+    static void load() {
         try {
             buildMenuItems();
         } finally {
@@ -81,7 +81,7 @@ class FileMenu {
         return new OpenFolderAction(getInstance());
     }
 
-    protected static synchronized JMenu getInstance() {
+    static synchronized JMenu getInstance() {
         if (fileMenu == null) {
             initialize();
             return fileMenu;
