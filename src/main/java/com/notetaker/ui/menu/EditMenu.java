@@ -16,7 +16,6 @@ class EditMenu {
     private static final String EDIT_DELETE = "Delete";
     private static final String EDIT_RENAME = "Rename";
 
-
     private static JMenu editMenu;
     private static JMenuItem deleteItem;
     private static JMenuItem renameItem;

@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class FileSelectedAction implements ListSelectionListener {
 
-    private JList<String> fileList = null;
+    private JList<String> fileList;
 
     public void setFileList(JList<String> fileList) {
         this.fileList = fileList;
