@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import static com.notetaker.ui.menu.actions.UpdateExistingFileAction.UpdateFlag.IS_OVERWRITE;
+
 class FileMenu {
 
     private static final String MENU_NAME = "File";
@@ -61,8 +63,7 @@ class FileMenu {
 
     private static ActionListener newNoteAction() {
         newNote.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-        ActionListener createNewFileAction = new CreateNewFileAction();
-        return createNewFileAction;
+        return new CreateNewFileAction();
     }
 
     private static ActionListener exportNoteAction() {
@@ -72,8 +73,7 @@ class FileMenu {
 
     private static ActionListener saveNoteAction() {
         saveNote.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        ActionListener updateExistingFileAction = new UpdateExistingFileAction();
-        return updateExistingFileAction;
+        return new UpdateExistingFileAction(IS_OVERWRITE, fileMenu);
     }
 
     private static ActionListener openFolderAction() {

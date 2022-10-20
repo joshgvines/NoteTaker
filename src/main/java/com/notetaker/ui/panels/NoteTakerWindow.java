@@ -1,4 +1,4 @@
-package com.notetaker.ui;
+package com.notetaker.ui.panels;
 
 import com.notetaker.ui.menu.MainMenuBar;
 import com.notetaker.ui.panels.NotesEditorPanel;

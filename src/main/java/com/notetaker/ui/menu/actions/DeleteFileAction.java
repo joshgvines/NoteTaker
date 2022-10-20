@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 /**
- * Will delete the file selected in the SideNavigationPanel and is open in the NOtesEditorPanel.
+ * Will delete the file selected in the SideNavigationPanel and is open in the NotesEditorPanel.
  */
 public class DeleteFileAction implements ActionListener {
 
