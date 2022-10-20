@@ -19,8 +19,7 @@ import java.nio.file.Path;
 public class UpdateExistingFileAction implements ActionListener {
 
     public enum UpdateFlag {
-        IS_OVERWRITE,
-        IS_NAME_CHANGE
+        IS_OVERWRITE, IS_NAME_CHANGE
     }
 
     private Component parent;
@@ -66,6 +65,9 @@ public class UpdateExistingFileAction implements ActionListener {
 
     private void renameFile(File openFile) throws IOException {
         String newFileName = JOptionPane.showInputDialog(parent, "New Name:");
+        if (newFileName == null || newFileName.isEmpty()) {
+            return;
+        }
 
         String location = SideNavigationPanel.getLocation().getPath();
         Path newPath = new File(location + "\\" + newFileName).toPath();
