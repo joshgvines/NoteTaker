@@ -14,12 +14,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * Will overwrite an existing file with changes made in the NotesEditorPanel.
+ * Will overwrite or rename an existing file with changes made in the NotesEditorPanel.
  */
 public class UpdateExistingFileAction implements ActionListener {
 
     public enum UpdateFlag {
-        IS_OVERWRITE, IS_NAME_CHANGE
+        IS_OVERWRITE,
+        IS_NAME_CHANGE
     }
 
     private Component parent;
@@ -55,14 +56,33 @@ public class UpdateExistingFileAction implements ActionListener {
         }
     }
 
+    /**
+     * Will overwrite the selected file contents.
+     * TODO: Should I compare to make sure the file actually has changes to be overwritten
+     *
+     * @param openFile
+     * @throws IOException
+     */
     private void overwriteFile(File openFile) throws IOException {
         String currentText = NotesEditorPanel.getCurrentText();
+        // Do not check for empty string. The user may want that to happen.
+        if (currentText == null) {
+            return;
+        }
+
         Files.writeString(openFile.toPath(), currentText, StandardCharsets.UTF_8);
 
         // Get the new file into memory in the editor panel. Not just the TextArea.
         NotesEditorPanel.load();
     }
 
+    /**
+     * Will rename a selected file if file name is not already taken.
+     * TODO: Probably a good idea to move away from JOptionPane
+     *
+     * @param openFile
+     * @throws IOException
+     */
     private void renameFile(File openFile) throws IOException {
         String newFileName = JOptionPane.showInputDialog(parent, "New Name:");
         if (newFileName == null || newFileName.isEmpty()) {
@@ -70,10 +90,14 @@ public class UpdateExistingFileAction implements ActionListener {
         }
 
         String location = SideNavigationPanel.getLocation().getPath();
-        Path newPath = new File(location + "\\" + newFileName).toPath();
-        Files.move(openFile.toPath(), newPath);
-
-        SideNavigationPanel.load();
+        File newFileToMove = new File(location + "\\" + newFileName);
+        if (newFileToMove.exists()) {
+            JOptionPane.showMessageDialog(parent, "File Name Is Already In Use");
+        } else {
+            Path newPath = newFileToMove.toPath();
+            Files.move(openFile.toPath(), newPath);
+            SideNavigationPanel.load();
+        }
     }
 
 }
