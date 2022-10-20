@@ -1,5 +1,7 @@
 package com.notetaker.ui.menu;
 
+import com.notetaker.ui.menu.actions.DeleteFileAction;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,7 +38,7 @@ class EditMenu {
 
     private static ActionListener deleteFileAction() {
         deleteItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
-        return e -> System.out.println("delete");
+        return new DeleteFileAction();
     }
 
     static synchronized JMenu getInstance() {
