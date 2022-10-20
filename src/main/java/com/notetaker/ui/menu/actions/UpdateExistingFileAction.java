@@ -42,9 +42,12 @@ public class UpdateExistingFileAction implements ActionListener {
             File openFile = NotesEditorPanel.getOpenFileInEditor();
             if (openFile != null && openFile.isFile()) {
 
+                // Need to keep Java 11 Compatible =(
                 switch (updateFlag) {
-                    case IS_OVERWRITE -> overwriteFile(openFile);
-                    case IS_NAME_CHANGE -> renameFile(openFile);
+                    case IS_OVERWRITE: overwriteFile(openFile);
+                        break;
+                    case IS_NAME_CHANGE: renameFile(openFile);
+                        break;
                 }
 
             }
