@@ -58,7 +58,7 @@ public class NotesEditorPanel {
         return textArea.getText();
     }
 
-    public static synchronized JPanel getInstance() {
+    static synchronized JPanel getInstance() {
         if (notesPanel == null) {
             initialize();
         }

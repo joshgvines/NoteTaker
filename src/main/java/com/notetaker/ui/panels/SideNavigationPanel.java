@@ -65,7 +65,7 @@ public class SideNavigationPanel {
         return navList;
     }
 
-    public static synchronized JPanel getInstance() {
+    static synchronized JPanel getInstance() {
         if (sideNavePanel == null) {
             initialize();
         }

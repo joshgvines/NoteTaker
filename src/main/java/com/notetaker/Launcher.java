@@ -1,6 +1,6 @@
 package com.notetaker;
 
-import com.notetaker.ui.NoteTakerWindow;
+import com.notetaker.ui.panels.NoteTakerWindow;
 
 import javax.swing.*;
 

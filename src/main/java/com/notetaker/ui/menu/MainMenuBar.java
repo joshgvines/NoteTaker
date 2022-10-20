@@ -18,6 +18,7 @@ public class MainMenuBar {
     protected static void load() {
         try {
             mainMenuBar.add(FileMenu.getInstance());
+            mainMenuBar.add(EditMenu.getInstance());
         } finally {
             mainMenuBar.revalidate();
         }

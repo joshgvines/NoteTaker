@@ -1,14 +1,12 @@
-package com.notetaker.ui;
+package com.notetaker.ui.panels;
 
 import com.notetaker.ui.menu.MainMenuBar;
-import com.notetaker.ui.panels.NotesEditorPanel;
-import com.notetaker.ui.panels.SideNavigationPanel;
 
 import javax.swing.*;
 
 public class NoteTakerWindow {
 
-    private static final String NAME = "Note Taker";
+    private static final String NAME = "NoteTaker";
 
     // Keep JFrame object encapsulated.
     private JFrame jFrameWindow;
