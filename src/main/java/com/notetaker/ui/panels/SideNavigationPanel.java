@@ -9,7 +9,6 @@ import java.io.File;
 
 public class SideNavigationPanel extends JPanel {
 
-    private static JPanel sideNavePanel;
     // TODO: Better Default value
     private static File location;
     private static FileTreeService fileTreeService;
@@ -18,13 +17,32 @@ public class SideNavigationPanel extends JPanel {
     public SideNavigationPanel(FileTreeService fileTreeService) {
         super(new BorderLayout());
         this.fileTreeService = fileTreeService;
-        location = new File("\\Users\\");
+        getOSLocation();
         listScroller = new JScrollPane(fileTreeService.buildTree(location));
         listScroller.setPreferredSize(new Dimension(80, 80));
         initialize();
     }
 
-    public void initialize() {
+    private void getOSLocation() {
+        System.out.println(System.getProperty("os.name"));
+        switch (System.getProperty("os.name")) {
+            case "Linux":
+                break;
+            case "Windows":
+            case "Windows 8":
+            case "Windows 10":
+            case "Windows 11":
+                String userName = System.getProperty("user.name");
+                location = new File(File.separator + "Users" +
+                                File.separator + userName +
+                                File.separator);
+                break;
+            default:
+                System.err.println("Unknown Operating System.");
+        }
+    }
+
+    private void initialize() {
         try {
             this.removeAll();
             this.add(listScroller);
