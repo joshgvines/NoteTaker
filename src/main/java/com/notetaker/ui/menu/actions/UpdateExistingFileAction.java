@@ -94,7 +94,7 @@ public class UpdateExistingFileAction implements ActionListener {
         }
 
         String location = treeService.getRootContent().getPath();
-        File newFileToMove = new File(location + "\\" + newFileName);
+        File newFileToMove = new File(location + File.separator + newFileName);
         if (newFileToMove.exists()) {
             JOptionPane.showMessageDialog(parent, "File Name Is Already In Use");
         } else {
