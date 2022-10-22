@@ -43,7 +43,7 @@ public class NavigationFileTreeService implements FileTreeService {
 
     @Override
     public void removeNode(MutableTreeNode node) {
-        root.remove(node);
+        treeModel.removeNodeFromParent(node);
         treeModel.reload(root);
     }
 
