@@ -1,35 +1,26 @@
 package com.notetaker.ui.menu;
 
+import com.notetaker.service.FileTreeService;
+
 import javax.swing.*;
 
-public class MainMenuBar {
+public class MainMenuBar extends JMenuBar {
 
-    private static JMenuBar mainMenuBar;
+    private FileTreeService fileTreeService;
 
-    private MainMenuBar() {
+    public MainMenuBar(FileTreeService fileTreeService) {
+        super();
+        this.fileTreeService = fileTreeService;
         initialize();
     }
 
-    private static void initialize() {
-        mainMenuBar = new JMenuBar();
-        load();
-    }
-
-    protected static void load() {
+    private void initialize() {
         try {
-            mainMenuBar.add(FileMenu.getInstance());
-            mainMenuBar.add(EditMenu.getInstance());
+            this.add(new FileMenu(fileTreeService));
+            this.add(new EditMenu(fileTreeService));
         } finally {
-            mainMenuBar.revalidate();
+            this.revalidate();
         }
-    }
-
-    public static synchronized JMenuBar getInstance() {
-        if (mainMenuBar == null) {
-            initialize();
-            return mainMenuBar;
-        }
-        return mainMenuBar;
     }
 
 }

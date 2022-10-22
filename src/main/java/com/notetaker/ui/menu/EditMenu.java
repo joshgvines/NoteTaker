@@ -1,5 +1,6 @@
 package com.notetaker.ui.menu;
 
+import com.notetaker.service.FileTreeService;
 import com.notetaker.ui.menu.actions.DeleteFileAction;
 import com.notetaker.ui.menu.actions.UpdateExistingFileAction;
 
@@ -10,56 +11,43 @@ import java.awt.event.KeyEvent;
 
 import static com.notetaker.ui.menu.actions.UpdateExistingFileAction.UpdateFlag;
 
-class EditMenu {
+class EditMenu extends JMenu {
 
     private static final String MENU_NAME = "Edit";
     private static final String EDIT_DELETE = "Delete";
     private static final String EDIT_RENAME = "Rename";
 
-    private static JMenu editMenu;
     private static JMenuItem deleteItem;
     private static JMenuItem renameItem;
 
-    private EditMenu() {
+    private FileTreeService fileTreeService;
+
+    EditMenu(FileTreeService fileTreeService) {
+        super(MENU_NAME);
+        this.fileTreeService = fileTreeService;
+        deleteItem = new JMenuItem(EDIT_DELETE);
+        renameItem = new JMenuItem(EDIT_RENAME);
         initialize();
     }
 
-    private static void initialize() {
-        editMenu = new JMenu(MENU_NAME);
-        editMenu.setMnemonic(KeyEvent.VK_E);
-        load();
+    private void initialize() {
+        this.setMnemonic(KeyEvent.VK_E);
+
+        deleteItem.addActionListener(deleteFileAction());
+        renameItem.addActionListener(renameFileAction());
+
+        this.add(deleteItem);
+        this.add(renameItem);
     }
 
-    static void load() {
-        try {
-            deleteItem = new JMenuItem(EDIT_DELETE);
-            renameItem = new JMenuItem(EDIT_RENAME);
-
-            deleteItem.addActionListener(deleteFileAction());
-            renameItem.addActionListener(renameFileAction());
-
-            editMenu.add(deleteItem);
-            editMenu.add(renameItem);
-        } finally {
-            editMenu.revalidate();
-        }
-    }
-
-    private static ActionListener deleteFileAction() {
+    private ActionListener deleteFileAction() {
         deleteItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
-        return new DeleteFileAction();
+        return new DeleteFileAction(fileTreeService);
     }
 
-    private static ActionListener renameFileAction() {
+    private ActionListener renameFileAction() {
         renameItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
-        return new UpdateExistingFileAction(UpdateFlag.IS_NAME_CHANGE, editMenu);
-    }
-
-    static synchronized JMenu getInstance() {
-        if (editMenu == null) {
-            initialize();
-        }
-        return editMenu;
+        return new UpdateExistingFileAction(fileTreeService, UpdateFlag.IS_NAME_CHANGE, this);
     }
 
 }

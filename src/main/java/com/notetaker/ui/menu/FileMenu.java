@@ -1,5 +1,6 @@
 package com.notetaker.ui.menu;
 
+import com.notetaker.service.FileTreeService;
 import com.notetaker.ui.menu.actions.CreateNewFileAction;
 import com.notetaker.ui.menu.actions.OpenFolderAction;
 import com.notetaker.ui.menu.actions.UpdateExistingFileAction;
@@ -11,7 +12,7 @@ import java.awt.event.KeyEvent;
 
 import static com.notetaker.ui.menu.actions.UpdateExistingFileAction.UpdateFlag;
 
-class FileMenu {
+class FileMenu extends JMenu {
 
     private static final String MENU_NAME = "File";
     private static final String NEW_NOTE = "New";
@@ -19,74 +20,55 @@ class FileMenu {
     private static final String SAVE_NOTE = "Save";
     private static final String OPEN_FOLDER = "Open Folder";
 
-    private static JMenu fileMenu;
+    private JMenuItem newNote;
+    private JMenuItem exportNote;
+    private JMenuItem saveNote;
+    private JMenuItem openFolder;
 
-    private static JMenuItem newNote;
-    private static JMenuItem exportNote;
-    private static JMenuItem saveNote;
-    private static JMenuItem openFolder;
+    private FileTreeService fileTreeService;
 
-    private FileMenu() {
-        initialize();
-    }
-
-    private static void initialize() {
-        fileMenu = new JMenu(MENU_NAME);
-        fileMenu.setMnemonic(KeyEvent.VK_F);
-        load();
-    }
-
-    static void load() {
-        try {
-            buildMenuItems();
-        } finally {
-            fileMenu.revalidate();
-        }
-    }
-
-    private static void buildMenuItems() {
+    FileMenu(FileTreeService fileTreeService) {
+        super(MENU_NAME);
+        this.fileTreeService = fileTreeService;
         newNote = new JMenuItem(NEW_NOTE);
         exportNote = new JMenuItem(EXPORT_NOTE);
         saveNote = new JMenuItem(SAVE_NOTE);
         openFolder = new JMenuItem(OPEN_FOLDER);
+        initialize();
+    }
+
+    private void initialize() {
+        this.setMnemonic(KeyEvent.VK_F);
 
         newNote.addActionListener(newNoteAction());
         exportNote.addActionListener(exportNoteAction());
         saveNote.addActionListener(saveNoteAction());
         openFolder.addActionListener(openFolderAction());
 
-        fileMenu.add(newNote);
-        fileMenu.add(exportNote);
-        fileMenu.add(saveNote);
-        fileMenu.add(openFolder);
+        this.add(newNote);
+        this.add(exportNote);
+        this.add(saveNote);
+        this.add(openFolder);
     }
 
-    private static ActionListener newNoteAction() {
+    private ActionListener newNoteAction() {
         newNote.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-        return new CreateNewFileAction();
+        return new CreateNewFileAction(fileTreeService);
     }
 
-    private static ActionListener exportNoteAction() {
+    private ActionListener exportNoteAction() {
         exportNote.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
         return e -> System.out.println("Export Note");
     }
 
-    private static ActionListener saveNoteAction() {
+    private ActionListener saveNoteAction() {
         saveNote.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        return new UpdateExistingFileAction(UpdateFlag.IS_OVERWRITE, fileMenu);
+        return new UpdateExistingFileAction(fileTreeService, UpdateFlag.IS_OVERWRITE, this);
     }
 
-    private static ActionListener openFolderAction() {
+    private ActionListener openFolderAction() {
         openFolder.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-        return new OpenFolderAction(getInstance());
-    }
-
-    static synchronized JMenu getInstance() {
-        if (fileMenu == null) {
-            initialize();
-            return fileMenu;
-        }
-        return fileMenu;
+        return new OpenFolderAction(fileTreeService, this);
     }
 
 }
