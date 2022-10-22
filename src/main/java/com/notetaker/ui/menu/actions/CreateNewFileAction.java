@@ -37,7 +37,7 @@ public class CreateNewFileAction implements ActionListener {
     }
 
     private File existingFileIncrement(File file) {
-        String defaultName = file.getAbsolutePath() + "\\" + "untitled";
+        String defaultName = file.getAbsolutePath() + File.separator + "untitled";
         File newFile = new File(defaultName);
         int i = 1;
         while (newFile.exists() && i < 999) {
