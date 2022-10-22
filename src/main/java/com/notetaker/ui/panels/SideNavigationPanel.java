@@ -1,7 +1,6 @@
 package com.notetaker.ui.panels;
 
 import com.notetaker.service.FileTreeService;
-import com.notetaker.service.NavigationFileTreeService;
 
 import javax.swing.*;
 import java.awt.*;
