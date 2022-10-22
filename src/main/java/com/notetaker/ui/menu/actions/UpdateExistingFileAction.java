@@ -1,6 +1,6 @@
 package com.notetaker.ui.menu.actions;
 
-import com.notetaker.service.FileTreeService;
+import com.notetaker.service.TreeService;
 import com.notetaker.ui.panels.NotesEditorPanel;
 
 import javax.swing.*;
@@ -23,27 +23,27 @@ public class UpdateExistingFileAction implements ActionListener {
         IS_NAME_CHANGE
     }
 
-    private FileTreeService fileTreeService;
+    private TreeService<File> treeService;
     private Component parent;
     private UpdateFlag updateFlag;
 
-    public UpdateExistingFileAction(FileTreeService fileTreeService,
+    public UpdateExistingFileAction(TreeService treeService,
                                     UpdateFlag updateFlag,
                                     Component parent) {
-        this.fileTreeService = fileTreeService;
+        this.treeService = treeService;
         this.updateFlag = updateFlag;
         this.parent = parent;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        File location = fileTreeService.getLocation();
+        File location = treeService.getRootContent();
         if (location == null || !location.isDirectory()) {
             return;
         }
 
         try {
-            File openFile = fileTreeService.getSelectedFile();
+            File openFile = treeService.getSelectedContent();
             if (openFile != null && openFile.isFile()) {
 
                 // Need to keep Java 11 Compatible =(
@@ -93,14 +93,14 @@ public class UpdateExistingFileAction implements ActionListener {
             return;
         }
 
-        String location = fileTreeService.getLocation().getPath();
+        String location = treeService.getRootContent().getPath();
         File newFileToMove = new File(location + "\\" + newFileName);
         if (newFileToMove.exists()) {
             JOptionPane.showMessageDialog(parent, "File Name Is Already In Use");
         } else {
             Path newPath = newFileToMove.toPath();
             Files.move(openFile.toPath(), newPath);
-            fileTreeService.updateNode(newFileToMove);
+            treeService.updateNode(newFileToMove);
         }
     }
 

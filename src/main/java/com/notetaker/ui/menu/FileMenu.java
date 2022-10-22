@@ -1,6 +1,7 @@
 package com.notetaker.ui.menu;
 
-import com.notetaker.service.FileTreeService;
+import com.notetaker.service.NavigationTreeService;
+import com.notetaker.service.TreeService;
 import com.notetaker.ui.menu.actions.CreateNewFileAction;
 import com.notetaker.ui.menu.actions.OpenFolderAction;
 import com.notetaker.ui.menu.actions.UpdateExistingFileAction;
@@ -9,6 +10,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import static com.notetaker.ui.menu.actions.UpdateExistingFileAction.UpdateFlag;
 
@@ -25,11 +27,11 @@ class FileMenu extends JMenu {
     private JMenuItem saveNote;
     private JMenuItem openFolder;
 
-    private FileTreeService fileTreeService;
+    private TreeService treeService;
 
-    FileMenu(FileTreeService fileTreeService) {
+    FileMenu(TreeService treeService) {
         super(MENU_NAME);
-        this.fileTreeService = fileTreeService;
+        this.treeService = treeService;
         newNote = new JMenuItem(NEW_NOTE);
         exportNote = new JMenuItem(EXPORT_NOTE);
         saveNote = new JMenuItem(SAVE_NOTE);
@@ -53,7 +55,7 @@ class FileMenu extends JMenu {
 
     private ActionListener newNoteAction() {
         newNote.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-        return new CreateNewFileAction(fileTreeService);
+        return new CreateNewFileAction(treeService);
     }
 
     private ActionListener exportNoteAction() {
@@ -63,12 +65,12 @@ class FileMenu extends JMenu {
 
     private ActionListener saveNoteAction() {
         saveNote.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        return new UpdateExistingFileAction(fileTreeService, UpdateFlag.IS_OVERWRITE, this);
+        return new UpdateExistingFileAction(treeService, UpdateFlag.IS_OVERWRITE, this);
     }
 
     private ActionListener openFolderAction() {
         openFolder.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-        return new OpenFolderAction(fileTreeService, this);
+        return new OpenFolderAction(treeService, this);
     }
 
 }

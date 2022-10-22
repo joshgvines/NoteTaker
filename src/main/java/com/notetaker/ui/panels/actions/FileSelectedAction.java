@@ -1,6 +1,6 @@
 package com.notetaker.ui.panels.actions;
 
-import com.notetaker.service.FileTreeService;
+import com.notetaker.service.TreeService;
 import com.notetaker.ui.panels.NotesEditorPanel;
 
 import javax.swing.event.TreeSelectionEvent;
@@ -12,15 +12,15 @@ import java.io.File;
  */
 public class FileSelectedAction implements TreeSelectionListener {
 
-    private FileTreeService FileTreeService;
+    private TreeService<File> TreeService;
 
-    public FileSelectedAction(FileTreeService FileTreeService) {
-        this.FileTreeService = FileTreeService;
+    public FileSelectedAction(TreeService TreeService) {
+        this.TreeService = TreeService;
     }
 
     @Override
     public void valueChanged(TreeSelectionEvent e) {
-        File selectedFile = FileTreeService.getSelectedFile();
+        File selectedFile = TreeService.getSelectedContent();
         if (selectedFile == null || !selectedFile.isFile()) {
             return;
         }

@@ -1,6 +1,6 @@
 package com.notetaker.ui.menu;
 
-import com.notetaker.service.FileTreeService;
+import com.notetaker.service.TreeService;
 import com.notetaker.ui.menu.actions.DeleteFileAction;
 import com.notetaker.ui.menu.actions.UpdateExistingFileAction;
 
@@ -20,11 +20,11 @@ class EditMenu extends JMenu {
     private static JMenuItem deleteItem;
     private static JMenuItem renameItem;
 
-    private FileTreeService fileTreeService;
+    private TreeService treeService;
 
-    EditMenu(FileTreeService fileTreeService) {
+    EditMenu(TreeService treeService) {
         super(MENU_NAME);
-        this.fileTreeService = fileTreeService;
+        this.treeService = treeService;
         deleteItem = new JMenuItem(EDIT_DELETE);
         renameItem = new JMenuItem(EDIT_RENAME);
         initialize();
@@ -42,12 +42,12 @@ class EditMenu extends JMenu {
 
     private ActionListener deleteFileAction() {
         deleteItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
-        return new DeleteFileAction(fileTreeService);
+        return new DeleteFileAction(treeService);
     }
 
     private ActionListener renameFileAction() {
         renameItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
-        return new UpdateExistingFileAction(fileTreeService, UpdateFlag.IS_NAME_CHANGE, this);
+        return new UpdateExistingFileAction(treeService, UpdateFlag.IS_NAME_CHANGE, this);
     }
 
 }

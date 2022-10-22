@@ -1,6 +1,6 @@
 package com.notetaker.ui.menu.actions;
 
-import com.notetaker.service.FileTreeService;
+import com.notetaker.service.TreeService;
 import com.notetaker.ui.panels.SideNavigationPanel;
 
 import javax.swing.*;
@@ -14,11 +14,11 @@ import java.io.File;
  */
 public class OpenFolderAction implements ActionListener {
 
-    private FileTreeService fileTreeService;
+    private TreeService<File> treeService;
     private Component parent;
 
-    public OpenFolderAction(FileTreeService fileTreeService, Component parent) {
-        this.fileTreeService = fileTreeService;
+    public OpenFolderAction(TreeService treeService, Component parent) {
+        this.treeService = treeService;
         this.parent = parent;
     }
 
@@ -26,13 +26,13 @@ public class OpenFolderAction implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JFileChooser fChooser = new JFileChooser();
         fChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        File location = fileTreeService.getLocation();
+        File location = treeService.getRootContent();
         if (location == null) {
             return;
         }
 
         if (fChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
-            if (!fileTreeService.getLocation().equals(fChooser.getSelectedFile())) {
+            if (!treeService.getRootContent().equals(fChooser.getSelectedFile())) {
                 File file = fChooser.getSelectedFile();
                 SideNavigationPanel.setLocation(file);
             }

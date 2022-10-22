@@ -1,7 +1,7 @@
 package com.notetaker.ui.panels;
 
-import com.notetaker.service.FileTreeService;
-import com.notetaker.service.NavigationFileTreeService;
+import com.notetaker.service.TreeService;
+import com.notetaker.service.NavigationTreeService;
 import com.notetaker.ui.menu.MainMenuBar;
 
 import javax.swing.*;
@@ -24,8 +24,8 @@ public class NoteTakerWindow {
         jFrameWindow.setSize(1200, 800);
         jFrameWindow.setLocationRelativeTo(null);
 
-        FileTreeService fileTreeService = new NavigationFileTreeService();
-        SideNavigationPanel sideNavPanel = new SideNavigationPanel(fileTreeService);
+        TreeService treeService = new NavigationTreeService();
+        SideNavigationPanel sideNavPanel = new SideNavigationPanel(treeService);
 
         JSplitPane splitNav = new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT,
@@ -35,7 +35,7 @@ public class NoteTakerWindow {
         splitNav.setDividerLocation(200);
 
         jFrameWindow.getContentPane().add(splitNav);
-        jFrameWindow.setJMenuBar(new MainMenuBar(fileTreeService));
+        jFrameWindow.setJMenuBar(new MainMenuBar(treeService));
     }
 
     public void show() {

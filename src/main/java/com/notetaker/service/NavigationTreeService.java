@@ -8,7 +8,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import java.io.File;
 
-public class NavigationFileTreeService implements FileTreeService {
+public class NavigationTreeService implements TreeService<File> {
 
     private DefaultMutableTreeNode root;
     private DefaultTreeModel treeModel;
@@ -48,7 +48,7 @@ public class NavigationFileTreeService implements FileTreeService {
     }
 
     @Override
-    public File getLocation() {
+    public File getRootContent() {
         FileNode node = getFileNode(root);
         if (node != null) {
             File file = node.getFile();
@@ -58,7 +58,7 @@ public class NavigationFileTreeService implements FileTreeService {
     }
 
     @Override
-    public File getSelectedFile() {
+    public File getSelectedContent() {
         FileNode node = getFileNode(tree.getLastSelectedPathComponent());
         if (node != null) {
             File file = node.getFile();

@@ -1,6 +1,7 @@
 package com.notetaker.ui.menu.actions;
 
-import com.notetaker.service.FileTreeService;
+import com.notetaker.service.NavigationTreeService;
+import com.notetaker.service.TreeService;
 import com.notetaker.ui.panels.NotesEditorPanel;
 
 import java.awt.event.ActionEvent;
@@ -12,20 +13,20 @@ import java.io.File;
  */
 public class DeleteFileAction implements ActionListener {
 
-    private FileTreeService fileTreeService;
+    private TreeService<File> treeService;
 
-    public DeleteFileAction(FileTreeService fileTreeService) {
-        this.fileTreeService = fileTreeService;
+    public DeleteFileAction(TreeService treeService) {
+        this.treeService = treeService;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        File openFile = fileTreeService.getSelectedFile();
+        File openFile = treeService.getSelectedContent();
         if (openFile != null && openFile.isFile()) {
             openFile.delete();
 
             NotesEditorPanel.load();
-            fileTreeService.removeNode(fileTreeService.getSelectedNode());
+            treeService.removeNode(treeService.getSelectedNode());
         }
     }
 

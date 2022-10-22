@@ -1,6 +1,7 @@
 package com.notetaker.ui.menu.actions;
 
-import com.notetaker.service.FileTreeService;
+import com.notetaker.service.NavigationTreeService;
+import com.notetaker.service.TreeService;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,15 +14,15 @@ import java.io.File;
  */
 public class CreateNewFileAction implements ActionListener {
 
-    private FileTreeService fileTreeService;
+    private TreeService<File> treeService;
 
-    public CreateNewFileAction(FileTreeService fileTreeService) {
-        this.fileTreeService = fileTreeService;
+    public CreateNewFileAction(TreeService treeService) {
+        this.treeService = treeService;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        File navLocationFile = fileTreeService.getLocation();
+        File navLocationFile = treeService.getRootContent();
         if (navLocationFile == null || !navLocationFile.isDirectory()) {
             return;
         }
@@ -29,7 +30,7 @@ public class CreateNewFileAction implements ActionListener {
         try {
             File file = existingFileIncrement(navLocationFile);
             file.createNewFile();
-            fileTreeService.addNode(file);
+            treeService.addNode(file);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

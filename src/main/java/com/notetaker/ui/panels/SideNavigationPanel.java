@@ -1,6 +1,6 @@
 package com.notetaker.ui.panels;
 
-import com.notetaker.service.FileTreeService;
+import com.notetaker.service.TreeService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,11 +11,11 @@ public class SideNavigationPanel extends JPanel {
     // TODO: Better Default value
     private static File location;
     private static JScrollPane listScroller;
-    private static FileTreeService fileTreeService;
+    private static TreeService treeService;
 
-    public SideNavigationPanel(FileTreeService fileTreeService) {
+    public SideNavigationPanel(TreeService treeService) {
         super(new BorderLayout());
-        this.fileTreeService = fileTreeService;
+        this.treeService = treeService;
         initialize();
     }
 
@@ -41,7 +41,7 @@ public class SideNavigationPanel extends JPanel {
     private void initialize() {
         try {
             getOSLocation();
-            listScroller = new JScrollPane(fileTreeService.buildTree(location));
+            listScroller = new JScrollPane(treeService.buildTree(location));
             listScroller.setPreferredSize(new Dimension(80, 80));
             this.add(listScroller);
         } finally {
@@ -50,7 +50,7 @@ public class SideNavigationPanel extends JPanel {
     }
 
     private static void setView() {
-        listScroller.setViewportView(fileTreeService.buildTree(location));
+        listScroller.setViewportView(treeService.buildTree(location));
     }
 
     public static void setLocation(File newLocation) {
