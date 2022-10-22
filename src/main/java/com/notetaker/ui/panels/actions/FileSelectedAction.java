@@ -1,14 +1,10 @@
 package com.notetaker.ui.panels.actions;
 
-import com.notetaker.service.FileNode;
+import com.notetaker.service.FileTreeService;
 import com.notetaker.ui.panels.NotesEditorPanel;
-import com.notetaker.ui.panels.SideNavigationPanel;
 
-import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
 import java.io.File;
 
 /**
@@ -16,34 +12,21 @@ import java.io.File;
  */
 public class FileSelectedAction implements TreeSelectionListener {
 
-    private JTree tree;
+    private FileTreeService FileTreeService;
 
-    public FileSelectedAction(JTree tree) {
-        this.tree = tree;
+    public FileSelectedAction(FileTreeService FileTreeService) {
+        this.FileTreeService = FileTreeService;
     }
 
     @Override
     public void valueChanged(TreeSelectionEvent e) {
-
-        String selectedFileName = null;
-        TreePath treePath = tree.getSelectionPath();
-        if (treePath != null) {
-            Object filePathToAdd = treePath.getLastPathComponent();
-            if (filePathToAdd instanceof DefaultMutableTreeNode) {
-                DefaultMutableTreeNode defaultMutableTreeNode = (DefaultMutableTreeNode) filePathToAdd;
-                FileNode fileNode = (FileNode) defaultMutableTreeNode.getUserObject();
-                selectedFileName = fileNode.getFile().getPath();
-            }
-        }
-
-        if (selectedFileName == null) {
+        File selectedFile = FileTreeService.getSelectedFile();
+        if (selectedFile == null || !selectedFile.isFile()) {
             return;
         }
 
         // TODO: Eventually will open new tab
-        File fileToOpen = new File(selectedFileName);
-
-        NotesEditorPanel.setOpenFileInEditor(fileToOpen);
+        NotesEditorPanel.setOpenFileInEditor(selectedFile);
         NotesEditorPanel.load();
     }
 }

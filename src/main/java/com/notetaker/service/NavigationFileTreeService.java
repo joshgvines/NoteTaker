@@ -20,7 +20,7 @@ public class NavigationFileTreeService implements FileTreeService {
         treeModel = new DefaultTreeModel(root);
         tree = new JTree(treeModel);
 
-        tree.addTreeSelectionListener(new FileSelectedAction(tree));
+        tree.addTreeSelectionListener(new FileSelectedAction(this));
         createChildren(fileRoot, root);
         return tree;
     }
