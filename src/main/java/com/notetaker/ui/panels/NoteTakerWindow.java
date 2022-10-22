@@ -13,10 +13,7 @@ public class NoteTakerWindow {
     // Keep JFrame object encapsulated.
     private JFrame jFrameWindow;
 
-    private FileTreeService fileTreeService;
-
     public NoteTakerWindow() {
-        fileTreeService = new NavigationFileTreeService();
         initialize();
     }
 
@@ -27,9 +24,12 @@ public class NoteTakerWindow {
         jFrameWindow.setSize(1200, 800);
         jFrameWindow.setLocationRelativeTo(null);
 
+        FileTreeService fileTreeService = new NavigationFileTreeService();
+        SideNavigationPanel sideNavPanel = new SideNavigationPanel(fileTreeService);
+
         JSplitPane splitNav = new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT,
-                new SideNavigationPanel(fileTreeService),
+                sideNavPanel,
                 NotesEditorPanel.getInstance());
 
         splitNav.setDividerLocation(200);

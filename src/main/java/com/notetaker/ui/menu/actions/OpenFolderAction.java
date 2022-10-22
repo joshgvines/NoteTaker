@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 /**
- * Will change the current directory of the side navigation and file list.
+ * Will change the current directory of the side navigation and file tree.
  */
 public class OpenFolderAction implements ActionListener {
 
@@ -37,12 +37,6 @@ public class OpenFolderAction implements ActionListener {
                 SideNavigationPanel.setLocation(fChooser.getSelectedFile());
             }
         }
-//        if (fChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
-//            if (!SideNavigationPanel.getLocation().equals(fChooser.getSelectedFile())) {
-//                SideNavigationPanel.setLocation(fChooser.getSelectedFile());
-//                SideNavigationPanel.load();
-//            }
-//        }
     }
 
 }
