@@ -26,15 +26,15 @@ public class OpenFolderAction implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JFileChooser fChooser = new JFileChooser();
         fChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        if (fileTreeService.getLocation() == null) {
+        File location = fileTreeService.getLocation();
+        if (location == null) {
             return;
         }
 
         if (fChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
             if (!fileTreeService.getLocation().equals(fChooser.getSelectedFile())) {
                 File file = fChooser.getSelectedFile();
-                fileTreeService.buildTree(file);
-                SideNavigationPanel.setLocation(fChooser.getSelectedFile());
+                SideNavigationPanel.setLocation(file);
             }
         }
     }

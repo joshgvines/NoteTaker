@@ -10,15 +10,12 @@ public class SideNavigationPanel extends JPanel {
 
     // TODO: Better Default value
     private static File location;
-    private static FileTreeService fileTreeService;
     private static JScrollPane listScroller;
+    private static FileTreeService fileTreeService;
 
     public SideNavigationPanel(FileTreeService fileTreeService) {
         super(new BorderLayout());
         this.fileTreeService = fileTreeService;
-        getOSLocation();
-        listScroller = new JScrollPane(fileTreeService.buildTree(location));
-        listScroller.setPreferredSize(new Dimension(80, 80));
         initialize();
     }
 
@@ -33,8 +30,8 @@ public class SideNavigationPanel extends JPanel {
             case "Windows 11":
                 String userName = System.getProperty("user.name");
                 location = new File(File.separator + "Users" +
-                                File.separator + userName +
-                                File.separator);
+                        File.separator + userName +
+                        File.separator);
                 break;
             default:
                 System.err.println("Unknown Operating System.");
@@ -43,16 +40,22 @@ public class SideNavigationPanel extends JPanel {
 
     private void initialize() {
         try {
-            this.removeAll();
+            getOSLocation();
+            listScroller = new JScrollPane(fileTreeService.buildTree(location));
+            listScroller.setPreferredSize(new Dimension(80, 80));
             this.add(listScroller);
         } finally {
             this.revalidate();
         }
     }
 
+    private static void setView() {
+        listScroller.setViewportView(fileTreeService.buildTree(location));
+    }
+
     public static void setLocation(File newLocation) {
         location = newLocation;
-        listScroller.setViewportView(fileTreeService.buildTree(location));
+        setView();
     }
 
 }

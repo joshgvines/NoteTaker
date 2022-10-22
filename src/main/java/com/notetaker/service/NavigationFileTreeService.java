@@ -49,16 +49,33 @@ public class NavigationFileTreeService implements FileTreeService {
 
     @Override
     public File getLocation() {
-//        DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getUserObject();
-        File file = ((FileNode) root.getUserObject()).getFile();
-        return file;
+        FileNode node = getFileNode(root);
+        if (node != null) {
+            File file = node.getFile();
+            return file;
+        }
+        return null;
     }
 
     @Override
     public File getSelectedFile() {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-        File file = ((FileNode) node.getUserObject()).getFile();
-        return file;
+        FileNode node = getFileNode(tree.getLastSelectedPathComponent());
+        if (node != null) {
+            File file = node.getFile();
+            return file;
+        }
+        return null;
+    }
+
+    private FileNode getFileNode(Object node) {
+        if (node instanceof DefaultMutableTreeNode) {
+            DefaultMutableTreeNode defaultNode = (DefaultMutableTreeNode) node;
+            node = defaultNode.getUserObject();
+        }
+        if (node instanceof FileNode) {
+            return (FileNode) node;
+        }
+        return null;
     }
 
     @Override

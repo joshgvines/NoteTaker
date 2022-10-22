@@ -37,8 +37,8 @@ public class UpdateExistingFileAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        File navLocationFile = fileTreeService.getLocation();
-        if (navLocationFile == null || !navLocationFile.isDirectory()) {
+        File location = fileTreeService.getLocation();
+        if (location == null || !location.isDirectory()) {
             return;
         }
 
