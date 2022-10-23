@@ -21,7 +21,7 @@ public class FileSelectedAction implements TreeSelectionListener {
     @Override
     public void valueChanged(TreeSelectionEvent e) {
         File selectedFile = TreeService.getSelectedContent();
-        if (selectedFile == null || !selectedFile.isFile()) {
+        if (selectedFile == null) {
             return;
         }
 
