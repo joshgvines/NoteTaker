@@ -34,7 +34,7 @@ public class NoteTakerWindow {
 
         splitNav.setDividerLocation(200);
 
-        jFrameWindow.getContentPane().add(splitNav);
+        jFrameWindow.add(splitNav);
         jFrameWindow.setJMenuBar(new MainMenuBar(treeService));
     }
 

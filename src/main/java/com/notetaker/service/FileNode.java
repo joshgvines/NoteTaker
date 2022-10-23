@@ -15,7 +15,9 @@ public class FileNode {
     }
 
     @Override
-    // For the nav
+    /** Allows the SideNavigationPanel to display file and directory names without showing any
+     * information about the file object.
+     */
     public String toString() {
         String name = file.getName();
         if (name.equals("")) {
