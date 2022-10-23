@@ -28,23 +28,20 @@ public class NavigationTreeService implements TreeService<File> {
     @Override
     public void addNode(File file) {
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(new FileNode(file));
-        root.add(node);
-        treeModel.reload(root);
+        treeModel.insertNodeInto(node, root, root.getChildCount());
     }
 
     @Override
     public void updateNode(File toFile) {
-        DefaultMutableTreeNode node = new DefaultMutableTreeNode(new FileNode(toFile));
-        int index = root.getIndex((DefaultMutableTreeNode) tree.getLastSelectedPathComponent());
-        root.remove(index);
-        root.insert(node, index);
-        treeModel.reload(root);
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) getSelectedNode();
+        treeModel.removeNodeFromParent(node);
+        addNode(toFile);
     }
 
     @Override
     public void removeNode(MutableTreeNode node) {
         treeModel.removeNodeFromParent(node);
-        treeModel.reload(root);
+        tree.clearSelection();
     }
 
     @Override

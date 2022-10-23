@@ -19,6 +19,17 @@ public class SideNavigationPanel extends JPanel {
         initialize();
     }
 
+    private void initialize() {
+        try {
+            getOSLocation();
+            listScroller = new JScrollPane(treeService.buildTree(location));
+            listScroller.setPreferredSize(new Dimension(80, 80));
+            this.add(listScroller);
+        } finally {
+            this.revalidate();
+        }
+    }
+
     private void getOSLocation() {
         System.out.println(System.getProperty("os.name"));
         switch (System.getProperty("os.name")) {
@@ -38,24 +49,9 @@ public class SideNavigationPanel extends JPanel {
         }
     }
 
-    private void initialize() {
-        try {
-            getOSLocation();
-            listScroller = new JScrollPane(treeService.buildTree(location));
-            listScroller.setPreferredSize(new Dimension(80, 80));
-            this.add(listScroller);
-        } finally {
-            this.revalidate();
-        }
-    }
-
-    private static void setView() {
-        listScroller.setViewportView(treeService.buildTree(location));
-    }
-
     public static void setLocation(File newLocation) {
         location = newLocation;
-        setView();
+        listScroller.setViewportView(treeService.buildTree(location));
     }
 
 }

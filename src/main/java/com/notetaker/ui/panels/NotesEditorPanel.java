@@ -16,30 +16,20 @@ public class NotesEditorPanel {
     }
 
     private static void initialize() {
-        notesPanel = new JPanel();
-        notesPanel.setLayout(new BorderLayout());
+        notesPanel = new JPanel(new BorderLayout());
         textArea = new JTextArea();
+        notesPanel.add(new JScrollPane(textArea));
         load();
     }
 
     public static void load() {
-        try {
-            notesPanel.removeAll();
-            JScrollPane jScrollPane = new JScrollPane();
-            readFileIntoEditor();
-            jScrollPane.setViewportView(textArea);
-            notesPanel.add(jScrollPane);
-        } finally {
-            notesPanel.revalidate();
-        }
+        readFileIntoEditor();
+        notesPanel.revalidate();
     }
 
     public static void setOpenFileInEditor(File fileToOpen) {
         currentFile = fileToOpen;
-    }
-
-    public static File getOpenFileInEditor() {
-        return currentFile;
+        load();
     }
 
     private static void readFileIntoEditor() {
@@ -50,6 +40,7 @@ public class NotesEditorPanel {
         try (FileReader fileReader = new FileReader(currentFile)) {
             textArea.read(fileReader, null);
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(notesPanel, "Unable To Load File Into Editor.");
             ex.printStackTrace();
         }
     }
