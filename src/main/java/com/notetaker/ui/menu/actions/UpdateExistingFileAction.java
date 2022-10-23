@@ -53,7 +53,6 @@ public class UpdateExistingFileAction implements ActionListener {
                     case IS_NAME_CHANGE: renameFile(openFile);
                         break;
                 }
-
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -73,9 +72,7 @@ public class UpdateExistingFileAction implements ActionListener {
         if (currentText == null) {
             return;
         }
-
         Files.writeString(openFile.toPath(), currentText, StandardCharsets.UTF_8);
-
         // Get the new file into memory in the editor panel. Not just the TextArea.
         NotesEditorPanel.load();
     }

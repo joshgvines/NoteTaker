@@ -42,7 +42,7 @@ class EditMenu extends JMenu {
 
     private ActionListener deleteFileAction() {
         deleteItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
-        return new DeleteFileAction(treeService);
+        return new DeleteFileAction(treeService, this);
     }
 
     private ActionListener renameFileAction() {
