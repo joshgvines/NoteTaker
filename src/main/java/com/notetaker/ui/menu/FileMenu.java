@@ -1,6 +1,5 @@
 package com.notetaker.ui.menu;
 
-import com.notetaker.service.NavigationTreeService;
 import com.notetaker.service.TreeService;
 import com.notetaker.ui.menu.actions.CreateNewFileAction;
 import com.notetaker.ui.menu.actions.OpenFolderAction;
@@ -10,7 +9,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
 
 import static com.notetaker.ui.menu.actions.UpdateExistingFileAction.UpdateFlag;
 

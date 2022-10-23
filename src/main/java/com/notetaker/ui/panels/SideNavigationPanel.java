@@ -16,13 +16,14 @@ public class SideNavigationPanel extends JPanel {
     public SideNavigationPanel(TreeService treeService) {
         super(new BorderLayout());
         this.treeService = treeService;
+        listScroller = new JScrollPane();
         initialize();
     }
 
     private void initialize() {
         try {
             getOSLocation();
-            listScroller = new JScrollPane(treeService.buildTree(location));
+            setLocation(location);
             listScroller.setPreferredSize(new Dimension(80, 80));
             this.add(listScroller);
         } finally {

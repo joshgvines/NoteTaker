@@ -1,10 +1,11 @@
 package com.notetaker.ui.panels;
 
-import com.notetaker.service.TreeService;
 import com.notetaker.service.NavigationTreeService;
+import com.notetaker.service.TreeService;
 import com.notetaker.ui.menu.MainMenuBar;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class NoteTakerWindow {
 
@@ -14,16 +15,11 @@ public class NoteTakerWindow {
     private JFrame jFrameWindow;
 
     public NoteTakerWindow() {
+        jFrameWindow = new JFrame(NAME);
         initialize();
     }
 
     private void initialize() {
-        jFrameWindow = new JFrame(NAME);
-
-        jFrameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        jFrameWindow.setSize(1200, 800);
-        jFrameWindow.setLocationRelativeTo(null);
-
         TreeService treeService = new NavigationTreeService();
         SideNavigationPanel sideNavPanel = new SideNavigationPanel(treeService);
 
@@ -34,11 +30,17 @@ public class NoteTakerWindow {
 
         splitNav.setDividerLocation(200);
 
+        jFrameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jFrameWindow.setPreferredSize(new Dimension(1200, 800));
+
         jFrameWindow.add(splitNav);
         jFrameWindow.setJMenuBar(new MainMenuBar(treeService));
     }
 
     public void show() {
+        jFrameWindow.pack();
+        jFrameWindow.setLocationRelativeTo(null);
+        jFrameWindow.validate();
         jFrameWindow.setVisible(true);
     }
 
