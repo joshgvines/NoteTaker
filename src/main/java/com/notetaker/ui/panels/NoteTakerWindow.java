@@ -1,8 +1,11 @@
 package com.notetaker.ui.panels;
 
+import com.notetaker.service.NavigationTreeService;
+import com.notetaker.service.TreeService;
 import com.notetaker.ui.menu.MainMenuBar;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class NoteTakerWindow {
 
@@ -12,39 +15,32 @@ public class NoteTakerWindow {
     private JFrame jFrameWindow;
 
     public NoteTakerWindow() {
+        jFrameWindow = new JFrame(NAME);
         initialize();
     }
 
     private void initialize() {
-        try {
-            buildFrame();
-            buildPanels();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+        TreeService treeService = new NavigationTreeService();
+        SideNavigationPanel sideNavPanel = new SideNavigationPanel(treeService);
 
-    private void buildFrame() {
-        jFrameWindow = new JFrame(NAME);
-        jFrameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        jFrameWindow.setSize(1200, 800);
-        jFrameWindow.setLocationRelativeTo(null);
-    }
-
-    private void buildPanels() {
         JSplitPane splitNav = new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT,
-                SideNavigationPanel.getInstance(),
+                sideNavPanel,
                 NotesEditorPanel.getInstance());
 
         splitNav.setDividerLocation(200);
 
+        jFrameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jFrameWindow.setPreferredSize(new Dimension(1200, 800));
+
         jFrameWindow.add(splitNav);
-        jFrameWindow.setJMenuBar(MainMenuBar.getInstance());
+        jFrameWindow.setJMenuBar(new MainMenuBar(treeService));
     }
 
     public void show() {
-//        jFrameWindow.pack();
+        jFrameWindow.pack();
+        jFrameWindow.setLocationRelativeTo(null);
+        jFrameWindow.validate();
         jFrameWindow.setVisible(true);
     }
 

@@ -1,7 +1,7 @@
 package com.notetaker.ui.menu.actions;
 
+import com.notetaker.service.TreeService;
 import com.notetaker.ui.panels.NotesEditorPanel;
-import com.notetaker.ui.panels.SideNavigationPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,23 +23,27 @@ public class UpdateExistingFileAction implements ActionListener {
         IS_NAME_CHANGE
     }
 
+    private TreeService<File> treeService;
     private Component parent;
     private UpdateFlag updateFlag;
 
-    public UpdateExistingFileAction(UpdateFlag updateFlag, Component parent) {
+    public UpdateExistingFileAction(TreeService treeService,
+                                    UpdateFlag updateFlag,
+                                    Component parent) {
+        this.treeService = treeService;
         this.updateFlag = updateFlag;
         this.parent = parent;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        File navLocationFile = SideNavigationPanel.getLocation();
-        if (navLocationFile == null || !navLocationFile.isDirectory()) {
+        File location = treeService.getRootContent();
+        if (location == null || !location.isDirectory()) {
             return;
         }
 
         try {
-            File openFile = NotesEditorPanel.getOpenFileInEditor();
+            File openFile = treeService.getSelectedContent();
             if (openFile != null && openFile.isFile()) {
 
                 // Need to keep Java 11 Compatible =(
@@ -89,14 +93,14 @@ public class UpdateExistingFileAction implements ActionListener {
             return;
         }
 
-        String location = SideNavigationPanel.getLocation().getPath();
-        File newFileToMove = new File(location + "\\" + newFileName);
+        String location = treeService.getRootContent().getPath();
+        File newFileToMove = new File(location + File.separator + newFileName);
         if (newFileToMove.exists()) {
             JOptionPane.showMessageDialog(parent, "File Name Is Already In Use");
         } else {
             Path newPath = newFileToMove.toPath();
             Files.move(openFile.toPath(), newPath);
-            SideNavigationPanel.load();
+            treeService.updateNode(newFileToMove);
         }
     }
 

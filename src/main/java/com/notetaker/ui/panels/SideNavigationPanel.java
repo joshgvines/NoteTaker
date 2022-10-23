@@ -1,74 +1,58 @@
 package com.notetaker.ui.panels;
 
-import com.notetaker.ui.panels.actions.FileSelectedAction;
+import com.notetaker.service.TreeService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-public class SideNavigationPanel {
+public class SideNavigationPanel extends JPanel {
 
-    private static JPanel sideNavePanel;
     // TODO: Better Default value
     private static File location;
-    private static FileSelectedAction fileClickedEvent;
-    private static JList<String> navList;
-    private static DefaultListModel listModel;
+    private static JScrollPane listScroller;
+    private static TreeService treeService;
 
-    private SideNavigationPanel() {
+    public SideNavigationPanel(TreeService treeService) {
+        super(new BorderLayout());
+        this.treeService = treeService;
+        listScroller = new JScrollPane();
         initialize();
     }
 
-    private static void initialize() {
-        sideNavePanel = new JPanel(new BorderLayout());
-        fileClickedEvent = new FileSelectedAction();
-        location = new File("\\Users\\");
-        listModel = new DefaultListModel();
-        navList = new JList<>();
-        load();
+    private void initialize() {
+        try {
+            getOSLocation();
+            setLocation(location);
+            listScroller.setPreferredSize(new Dimension(80, 80));
+            this.add(listScroller);
+        } finally {
+            this.revalidate();
+        }
     }
 
-    public static void load() {
-        try {
-            sideNavePanel.removeAll();
-            loadFilesFromCurrentLocation();
-            JScrollPane listScroller = new JScrollPane(loadFilesFromCurrentLocation());
-            listScroller.setPreferredSize(new Dimension(80, 80));
-            sideNavePanel.add(listScroller);
-        } finally {
-            sideNavePanel.revalidate();
+    private void getOSLocation() {
+        System.out.println(System.getProperty("os.name"));
+        switch (System.getProperty("os.name")) {
+            case "Linux":
+                break;
+            case "Windows":
+            case "Windows 8":
+            case "Windows 10":
+            case "Windows 11":
+                String userName = System.getProperty("user.name");
+                location = new File(File.separator + "Users" +
+                        File.separator + userName +
+                        File.separator);
+                break;
+            default:
+                System.err.println("Unknown Operating System.");
         }
     }
 
     public static void setLocation(File newLocation) {
         location = newLocation;
+        listScroller.setViewportView(treeService.buildTree(location));
     }
 
-    public static File getLocation() {
-        return location;
-    }
-
-    private static JList<String> loadFilesFromCurrentLocation() {
-        listModel.clear();
-
-        if (location != null && location.isDirectory()) {
-            File[] files = location.listFiles();
-            for (int i = 0; i < files.length; i++) {
-                listModel.addElement(files[i].getName());
-            }
-            navList.setModel(listModel);
-            fileClickedEvent.setFileList(navList);
-            navList.addListSelectionListener(fileClickedEvent);
-        } else {
-            listModel.addElement("No Files Found");
-        }
-        return navList;
-    }
-
-    static synchronized JPanel getInstance() {
-        if (sideNavePanel == null) {
-            initialize();
-        }
-        return sideNavePanel;
-    }
 }

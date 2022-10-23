@@ -1,38 +1,31 @@
 package com.notetaker.ui.panels.actions;
 
+import com.notetaker.service.TreeService;
 import com.notetaker.ui.panels.NotesEditorPanel;
-import com.notetaker.ui.panels.SideNavigationPanel;
 
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import java.io.File;
 
 /**
  * Will update which file is displayed in the NotesEditorPanel.
  */
-public class FileSelectedAction implements ListSelectionListener {
+public class FileSelectedAction implements TreeSelectionListener {
 
-    private JList<String> fileList;
+    private TreeService<File> TreeService;
 
-    public void setFileList(JList<String> fileList) {
-        this.fileList = fileList;
+    public FileSelectedAction(TreeService TreeService) {
+        this.TreeService = TreeService;
     }
 
     @Override
-    public void valueChanged(ListSelectionEvent e) {
-        if (e.getValueIsAdjusting() || fileList == null) {
+    public void valueChanged(TreeSelectionEvent e) {
+        File selectedFile = TreeService.getSelectedContent();
+        if (selectedFile == null) {
             return;
         }
-        final String selectedFileName = fileList.getSelectedValue();
-        // TODO: Eventually will open new tab
-        if (selectedFileName != null && !selectedFileName.isEmpty()) {
-            File location = SideNavigationPanel.getLocation();
-            String fileLocation = location.getPath() + "\\" + selectedFileName;
-            File fileToOpen = new File(fileLocation);
 
-            NotesEditorPanel.setOpenFileInEditor(fileToOpen);
-            NotesEditorPanel.load();
-        }
+        // TODO: Eventually will open new tab
+        NotesEditorPanel.setOpenFileInEditor(selectedFile);
     }
 }
