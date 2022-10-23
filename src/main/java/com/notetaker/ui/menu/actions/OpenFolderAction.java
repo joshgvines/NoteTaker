@@ -32,7 +32,7 @@ public class OpenFolderAction implements ActionListener {
         }
 
         if (fChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
-            if (!treeService.getRootContent().equals(fChooser.getSelectedFile())) {
+            if (!location.equals(fChooser.getSelectedFile())) {
                 File file = fChooser.getSelectedFile();
                 SideNavigationPanel.setLocation(file);
             }
