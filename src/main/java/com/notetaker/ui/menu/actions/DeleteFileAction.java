@@ -1,6 +1,5 @@
 package com.notetaker.ui.menu.actions;
 
-import com.notetaker.service.NavigationTreeService;
 import com.notetaker.service.TreeService;
 import com.notetaker.ui.panels.NotesEditorPanel;
 
