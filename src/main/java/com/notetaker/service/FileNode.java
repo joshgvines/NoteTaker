@@ -15,7 +15,8 @@ public class FileNode {
     }
 
     @Override
-    /** Allows the SideNavigationPanel to display file and directory names without showing any
+    /**
+     * Allows the SideNavigationPanel to display file and directory names without showing any
      * information about the file object.
      */
     public String toString() {

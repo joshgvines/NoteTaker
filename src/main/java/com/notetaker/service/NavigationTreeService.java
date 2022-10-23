@@ -27,15 +27,25 @@ public class NavigationTreeService implements TreeService<File> {
 
     @Override
     public void addNode(File file) {
-        DefaultMutableTreeNode node = new DefaultMutableTreeNode(new FileNode(file));
-        treeModel.insertNodeInto(node, root, root.getChildCount());
+        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(new FileNode(file));
+
+        DefaultMutableTreeNode tmpNode = (DefaultMutableTreeNode) getSelectedNode();
+        File currentFile = getSelectedContent();
+        DefaultMutableTreeNode parent;
+
+        if (currentFile != null && currentFile.isDirectory()) {
+            parent = tmpNode;
+        } else {
+            parent = (DefaultMutableTreeNode) tmpNode.getParent();
+        }
+        treeModel.insertNodeInto(newNode, parent, parent.getChildCount());
     }
 
     @Override
     public void updateNode(File toFile) {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) getSelectedNode();
-        treeModel.removeNodeFromParent(node);
         addNode(toFile);
+        treeModel.removeNodeFromParent(node);
     }
 
     @Override
@@ -77,7 +87,7 @@ public class NavigationTreeService implements TreeService<File> {
 
     @Override
     public MutableTreeNode getSelectedNode() {
-        return (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+        return (MutableTreeNode) tree.getLastSelectedPathComponent();
     }
 
     private void createChildren(File fileRoot, DefaultMutableTreeNode root) {
