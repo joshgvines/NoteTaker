@@ -1,12 +1,16 @@
 package com.notetaker.ui.panels;
 
 import com.notetaker.service.TreeService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
 public class SideNavigationPanel extends JPanel {
+
+    private static final Logger LOG = LogManager.getLogger(SideNavigationPanel.class);
 
     // TODO: Better Default value
     private static File location;
@@ -32,7 +36,7 @@ public class SideNavigationPanel extends JPanel {
     }
 
     private void getOSLocation() {
-        System.out.println(System.getProperty("os.name"));
+        LOG.debug("OS: " + System.getProperty("os.name"));
         switch (System.getProperty("os.name")) {
             case "Linux":
                 break;
@@ -51,6 +55,7 @@ public class SideNavigationPanel extends JPanel {
     }
 
     public static void setLocation(File newLocation) {
+        LOG.debug("Setting Location: " + newLocation.getAbsolutePath());
         location = newLocation;
         listScroller.setViewportView(treeService.buildTree(location));
     }

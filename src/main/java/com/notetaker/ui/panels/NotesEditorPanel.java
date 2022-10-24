@@ -1,11 +1,17 @@
 package com.notetaker.ui.panels;
 
+import com.notetaker.service.ActionErrorHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 
 public class NotesEditorPanel {
+
+    private static final Logger LOG = LogManager.getLogger(NotesEditorPanel.class);
 
     private static JPanel notesPanel;
     private static File currentFile;
@@ -40,8 +46,8 @@ public class NotesEditorPanel {
         try (FileReader fileReader = new FileReader(currentFile)) {
             textArea.read(fileReader, null);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(notesPanel, "Unable To Load File Into Editor.");
-            ex.printStackTrace();
+            String msg = "Unable to load file into editor.";
+            ActionErrorHandler.handleFailure(ex, msg, LOG, notesPanel);
         }
     }
 
