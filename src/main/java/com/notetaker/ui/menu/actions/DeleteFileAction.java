@@ -1,5 +1,6 @@
 package com.notetaker.ui.menu.actions;
 
+import com.notetaker.service.ActionErrorHandler;
 import com.notetaker.service.TreeService;
 import com.notetaker.ui.panels.NotesEditorPanel;
 import org.apache.logging.log4j.LogManager;
@@ -42,7 +43,7 @@ public class DeleteFileAction implements ActionListener {
             treeService.removeNode(treeService.getSelectedNode());
         } catch (Exception ex) {
             String msg = "Failed to delete file.";
-            MenuActionErrorHandler.handleFailure(ex, msg, LOG, parent);
+            ActionErrorHandler.handleFailure(ex, msg, LOG, parent);
         }
     }
 

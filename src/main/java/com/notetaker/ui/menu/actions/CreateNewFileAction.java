@@ -1,5 +1,6 @@
 package com.notetaker.ui.menu.actions;
 
+import com.notetaker.service.ActionErrorHandler;
 import com.notetaker.service.TreeService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +41,7 @@ public class CreateNewFileAction implements ActionListener {
             treeService.addNode(newFile);
         } catch (Exception ex) {
             String msg = "Failed to create file.";
-            MenuActionErrorHandler.handleFailure(ex, msg, LOG, null);
+            ActionErrorHandler.handleFailure(ex, msg, LOG);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.notetaker.ui.menu.actions;
 
+import com.notetaker.service.ActionErrorHandler;
 import com.notetaker.service.TreeService;
 import com.notetaker.ui.panels.SideNavigationPanel;
 import org.apache.logging.log4j.LogManager;
@@ -57,7 +58,7 @@ public class OpenFolderAction implements ActionListener {
             }
         } catch (Exception ex) {
             final String msg = "Failed to open new location.";
-            MenuActionErrorHandler.handleFailure(ex, msg, LOG, parent);
+            ActionErrorHandler.handleFailure(ex, msg, LOG, parent);
         }
     }
 
