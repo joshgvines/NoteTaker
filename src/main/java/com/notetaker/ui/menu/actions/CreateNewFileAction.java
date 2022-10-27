@@ -1,7 +1,9 @@
 package com.notetaker.ui.menu.actions;
 
-import com.notetaker.service.NavigationTreeService;
+import com.notetaker.service.ActionErrorHandler;
 import com.notetaker.service.TreeService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +16,8 @@ import java.io.File;
  */
 public class CreateNewFileAction implements ActionListener {
 
+    private final Logger LOG = LogManager.getLogger(getClass());
+
     private TreeService<File> treeService;
 
     public CreateNewFileAction(TreeService treeService) {
@@ -24,15 +28,20 @@ public class CreateNewFileAction implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         File navLocationFile = treeService.getRootContent();
         if (navLocationFile == null || !navLocationFile.isDirectory()) {
+            LOG.debug("Current location in navigation was null or not a directory.");
             return;
         }
+        createNewFile(navLocationFile);
+    }
 
+    private void createNewFile(File navLocationFile) {
         try {
-            File file = existingFileIncrement(navLocationFile);
-            file.createNewFile();
-            treeService.addNode(file);
+            File newFile = existingFileIncrement(navLocationFile);
+            newFile.createNewFile();
+            treeService.addNode(newFile);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            String msg = "Failed to create file.";
+            ActionErrorHandler.handleFailure(ex, msg, LOG);
         }
     }
 

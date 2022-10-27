@@ -28,4 +28,5 @@ public class FileSelectedAction implements TreeSelectionListener {
         // TODO: Eventually will open new tab
         NotesEditorPanel.setOpenFileInEditor(selectedFile);
     }
+
 }

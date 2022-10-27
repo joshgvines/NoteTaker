@@ -1,7 +1,10 @@
 package com.notetaker.ui.menu.actions;
 
+import com.notetaker.service.ActionErrorHandler;
 import com.notetaker.service.TreeService;
 import com.notetaker.ui.panels.NotesEditorPanel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +20,8 @@ import java.nio.file.Path;
  * Will overwrite or rename an existing file with changes made in the NotesEditorPanel.
  */
 public class UpdateExistingFileAction implements ActionListener {
+
+    private final Logger LOG = LogManager.getLogger(getClass());
 
     public enum UpdateFlag {
         IS_OVERWRITE,
@@ -41,11 +46,9 @@ public class UpdateExistingFileAction implements ActionListener {
         if (location == null || !location.isDirectory()) {
             return;
         }
-
         try {
             File openFile = treeService.getSelectedContent();
             if (openFile != null && openFile.isFile()) {
-
                 // Need to keep Java 11 Compatible =(
                 switch (updateFlag) {
                     case IS_OVERWRITE: overwriteFile(openFile);
@@ -53,10 +56,10 @@ public class UpdateExistingFileAction implements ActionListener {
                     case IS_NAME_CHANGE: renameFile(openFile);
                         break;
                 }
-
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            String msg = "Failed to update file.";
+            ActionErrorHandler.handleFailure(ex, msg, LOG, parent);
         }
     }
 
